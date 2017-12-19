@@ -1,6 +1,6 @@
 ## 型別 (Types)
 
-在 JavaScript 中，總共有六種型別
+在 JavaScript 中，總共有六種型別：
 
 - string
 - number
@@ -9,7 +9,7 @@
 - undefined
 - object
 
-而這六種型別又可以分成以下兩大類別
+而這六種型別又可以分成以下兩大類別：
 
 - 原始型別
 - 物件型別
@@ -20,15 +20,13 @@
 
 ## 原始型別 (Primitive Type) 概述
 
-原始型別是 JavaScript 中最基本的單位，它是一個值，因為並不是物件，所以沒有任何屬性
+*原始型別是 JavaScript 中最基本的單位，它是一個值，因為並不是物件，所以沒有任何屬性*
 
 - string
 - number
 - boolean
 - null
 - undefined
-
-每個 primitive 詳細的內容在下一篇介紹
 
 ### 特性
 
@@ -56,21 +54,21 @@
 
   - **對 原始型別 寫入屬性，會強制轉型為對應的物件型別，但會是無效/錯誤的：**
 
-    最後嘗試對原始型別進行寫入。我們可以看到，在非 `strict-mode` 模式下看似允許對原始型別寫入屬性，但實際上他的值並沒有成功寫入。
+    最後嘗試對原始型別進行寫入。我們可以看到，在非 `strict-mode` 模式下看似允許對原始型別寫入屬性，但並沒有成功寫入。
 
     ```javascript
     'hello world'.length = 1;
     'hello world'.length		// 11
     ```
 
-    到這邊為止，我們無法確定為何寫入失敗，也不知道對原始型別寫入屬性時，會不會強制轉型為對應的物件型別。接著試試在 `strict-mode` 下執行。
+    到這邊為止，我們無法確定為何會寫入失敗。接著試試在 `strict-mode` 下執行。
 
     ```javascript
     'use strict';
     'hello world'.length = 1;	// Uncaught TypeError: Cannot assign to read only property 'length' of string 'hello world'
     ```
 
-    他跳出了 `Cannot assign to read only property 'length' of string` 的錯誤訊息，也就代表，即便在寫入屬性時，原始型別也會被強制轉型為 對應的物件型別，只是因為 `length` 是 `read-only` 而失敗。
+    他跳出了 `Cannot assign to read only property 'length' of string` 的錯誤訊息，也就代表，即便在寫入屬性時，原始型別也會被強制轉型為 對應的物件型別，會無法寫入只是因為 `length` 有 `read-only` 的屬性。
 
     那假如我們試著寫進一個新的屬性呢?
 
@@ -79,7 +77,7 @@
     'hello world'.myProperty = 1;	// Uncaught TypeError: Cannot create property 'myProperty' on string 'hello world'
     ```
 
-    這次的錯誤訊息是 `Cannot create property 'myProperty' on string 'hello world'`，因此可以得知，當我們對原始型別 寫入屬性，JavaScript 引擎也會將它強制轉型為對應的物件型別，但會是無效/錯誤的。
+    這次的錯誤訊息是 `Cannot create property 'myProperty' on string 'hello world'`，因此得知，當我們對原始型別 寫入屬性，JavaScript 引擎也會將它強制轉型為對應的物件型別，但這操作會是無效/錯誤的。
 
 
 
@@ -122,9 +120,9 @@ JavaScript 中分為六個型別與兩大類別，這篇主要介紹 原始型�
 * 原始型別是不可變異的 ( immutable )
 * 必要時，JavaScript 引擎會將原始型別強制轉型為 對應的物件型別 ( 除了 `null` & `undefined` )
 
-另外，也學到能使用 `typeof` 來查看除了 `null` 以外的原始物件型別
+另外，也學到能使用 `typeof` 來查看除了 `null` 以外的原始物件型別。
 
-下次將介紹各個原始型別以及在使用時應該注意的事項
+下次將介紹各個原始型別以及在使用時應該注意的事項。
 
 
 
