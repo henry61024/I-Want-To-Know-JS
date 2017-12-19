@@ -23,10 +23,7 @@
 * Function
 * 範疇
 * this
-* DOM
 * Prototype
-* Promise
-* JavaScript 內部機制
 * Coding Styles & Best Practice
 * Debug 心得
 
