@@ -20,7 +20,7 @@
 
 ## 原始型別 (Primitive Type) 概述
 
-原始型別為單一值，是 JavaScript 中最基本的單位
+原始型別是 JavaScript 中最基本的單位，它是一個值，因為並不是物件，所以沒有任何屬性
 
 - string
 - number
@@ -32,26 +32,19 @@
 
 ### 特性
 
-- **原始型別是單一值，沒有屬性**
-
-  如開頭所說，原始型別為單一值，因此不會有屬性，我們可以用 `console.dir()` 來確定這點。
-
-  ```javascript
-  console.dir('hello world');		// "hello world"
-  ```
-
+- **原始型別是一個值，沒有屬性**
 
 - **原始型別是不可變異的 ( immutable )**
 
-  簡單來講，你在 JavaScript 中能改變變數/屬性 中儲存的值，但是你無法改變值本身
+  在 JavaScript 中，你能改變變數/屬性 中儲存的值，但是你無法改變他記憶體位置中的內容。
 
-  `var a = 1` 中，你可以改變變數 `a` 的內容，但你無法改變 `1` 的值
+  舉例來說，`var a = 1` 中，你可以改變變數 `a` 的內容，但你沒有任何手段可以把儲存 `1` 這個值的記憶體位置寫入其他內容。更多詳細的內容將在之後介紹 JavaScript傳值還是傳址時討論。
 
-- **讀取原始型別的屬性時，JavaScript 會將之強制轉型為 對應的物件型別** ( 除了 `null` & `undefined` )
+- **必要時，JavaScript 引擎會將原始型別強制轉型為 對應的物件型別** ( 除了 `null` & `undefined` )
 
-  為了方便性，JavaScript 用強制轉型來允許原始型別操作其物件型別的屬性
+  為了方便性，JavaScript 用強制轉型來允許原始型別操作其物件型別的屬性。請注意，因為`null` & `undefined` 沒有對應的物件型別，所以自然也不會被強制轉型。
 
-  上面已經用範例驗證原始型別沒有屬性這點，接著對原始型別讀取屬性確認它是否能夠取得其對應物件型別的屬性，最後測試對原始型別寫入屬性是否可以成功。
+  接下來我們會對原始型別讀取屬性確認它是否能夠取得其對應物件型別的屬性，最後測試對原始型別寫入屬性是否可以成功。
 
   - **對 原始型別 讀取屬性時，會強制轉型為 對應的物件型別** ：
 
@@ -61,19 +54,34 @@
     'hello world'.length;		// 11
     ```
 
-  - **對 原始型別 寫入屬性 會出現錯誤：**
+  - **對 原始型別 寫入屬性，會強制轉型為對應的物件型別，但會是無效/錯誤的：**
 
-    最後嘗試對原始型別進行寫入。我們可以看到，在非 `strict-mode` 模式下看似允許對原始型別寫入屬性，但實際上他的值並無法被寫入。而在 `strict-mode` 模式下則是直接禁止對原始型別寫入屬性的。
-
-    這部分還是回到 '原始型別為單一值，因此不會有屬性' 的概念，你不能對一個單一值加上額外的屬性，而 JavaScript 也沒有提供這個額外的功能。
+    最後嘗試對原始型別進行寫入。我們可以看到，在非 `strict-mode` 模式下看似允許對原始型別寫入屬性，但實際上他的值並沒有成功寫入。
 
     ```javascript
     'hello world'.length = 1;
     'hello world'.length		// 11
-
-    'use strict';
-    'hello world'.length = 1;	// Uncaught TypeError
     ```
+
+    到這邊為止，我們無法確定為何寫入失敗，也不知道對原始型別寫入屬性時，會不會強制轉型為對應的物件型別。接著試試在 `strict-mode` 下執行。
+
+    ```javascript
+    'use strict';
+    'hello world'.length = 1;	// Uncaught TypeError: Cannot assign to read only property 'length' of string 'hello world'
+    ```
+
+    他跳出了 `Cannot assign to read only property 'length' of string` 的錯誤訊息，也就代表，即便在寫入屬性時，原始型別也會被強制轉型為 對應的物件型別，只是因為 `length` 是 `read-only` 而失敗。
+
+    那假如我們試著寫進一個新的屬性呢?
+
+    ```javascript
+    'use strict';
+    'hello world'.myProperty = 1;	// Uncaught TypeError: Cannot create property 'myProperty' on string 'hello world'
+    ```
+
+    這次的錯誤訊息是 `Cannot create property 'myProperty' on string 'hello world'`，因此可以得知，當我們對原始型別 寫入屬性，JavaScript 引擎也會將它強制轉型為對應的物件型別，但會是無效/錯誤的。
+
+
 
 
 ### 辨別原始型別
@@ -110,10 +118,22 @@ typeof null; 				// "object"
 
 JavaScript 中分為六個型別與兩大類別，這篇主要介紹 原始型別 (Primitive Type) 的一些特性，分別為：
 
-* 原始型別是單一值，沒有屬性
+* 原始型別是一個值，沒有屬性
 * 原始型別是不可變異的 ( immutable )
 * 讀取原始型別的屬性時，JavaScript 會將之強制轉型為 對應的物件型別
 
 另外，也學到能使用 `typeof` 來查看除了 `null` 以外的原始物件型別
 
 下次將介紹各個原始型別以及在使用時應該注意的事項
+
+
+
+## 參考
+
+[You Don't Know JS : Object](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20%26%20object%20prototypes/ch3.md)
+
+https://www.w3schools.com/js/js_object_definition.asp
+
+https://developer.mozilla.org/en-US/docs/Glossary/Primitive
+
+https://javascriptweblog.wordpress.com/2010/09/27/the-secret-life-of-javascript-primitives/
