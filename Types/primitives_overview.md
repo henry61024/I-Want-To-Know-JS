@@ -88,8 +88,8 @@
 
 ```javascript
 var myString = 'hello world';
-typeof myString; 			// "string"
-typeof 'hello world'; 		// "string"
+typeof myString;			// "string"
+typeof 'hello world';		        // "string"
 
 var myNumber = 123;
 typeof myNumber; 			// "number"
@@ -100,7 +100,7 @@ typeof myBoolean; 			// "boolean"
 typeof true; 				// "boolean"
 
 var myUndefined = true;
-typeof myUndefined; 		// "undefined"
+typeof myUndefined;			// "undefined"
 typeof undefined; 			// "undefined"
 
 var myNull = true;
