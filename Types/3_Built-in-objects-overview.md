@@ -32,6 +32,9 @@
   var myBooleanObj = new Boolean(true);	// Boolean {true}
   console.log(myBooleanObj);
 
+  var myObject = new Object();
+  console.log(myObject);					// {}
+
   var myArray = new Array();
   console.log(myArray);					// []
 
@@ -39,22 +42,18 @@
   console.log(myDate);					// Wed Dec 22 2017 21:47:10 GMT+0800
   ```
 
-* **利用 literal 方式創建：**
+* **利用 literal 方式創建**
 
   * 適用於 `Object`、`Array`、`Function`、`RegExp` 。
 
   * Note：用 literal 方式創建的物件與 `new` 出來的物件是一樣的。
 
-    我們可以用 `instanceOf` 來確定這點，`instanceOf` 將在稍後介紹。 ???
-
     ```javascript
     var myLiteralObject = {};
-    myLiteralArray instanceof Object;			// true
+    console.log(myLiteralObject);					// {}
 
-    var myLiteralArray = [],
-        myArray = new Array();
-    myLiteralArray instanceof Array;			// true
-    myArray instanceof Array;					// true
+    var myLiteralArray = [];
+    console.log(myLiteralArray);					// []
     ```
 
 ### 辨別 物件型別
@@ -89,9 +88,17 @@
 
 * **利用 `instanceOf` 可以查看某物件是不是屬於特定的子型別**
 
+  會回傳 boolean，代表是不是屬於該子型別。
+
   ```javascript
   myStringObj instanceOf String; 		// "true"
   myStringObj instanceOf Number; 		// "false"
+
+  myObject instanceOf Object			// "true"
+  myLiteralObject instanceOf Object	// "true"
+
+  myArray instanceOf Array			// "true"
+  myLiteralArray instanceOf Array		// "true"
   ```
 
 ### 取出值
@@ -105,7 +112,7 @@ myBooleanObj.valueOf();		// true
 myArray.valueOf();			// []
 ```
 
-### 與原始型別比較
+### 與原始型別比較 ???
 
 - **不同點**
 
@@ -140,21 +147,34 @@ myArray.valueOf();			// []
 
 ## 實作建議
 
-###盡量使用 literal 方式宣告物件
+###盡量使用 literal 方式
 
 對 `Object` 、`Array`、`Function`、`RegExp` 來說，用 literal 方式與用 `new` 產生物件結果是一樣的。
 
 對 `String`、`Number`、`Boolean` 來說，用 literal 方式宣告則會產生原始型別，但因為 [必要時會自動強制轉型成物件型別的特性]()，所以在使用上與其物件型別並無不同。
 
-也就是說，除了 `Date`、`Error` 這兩個型別以外必須使用 `new` 才能創建以外，其餘的內建物件都是可以直接 literal 宣告的。
+也就是說，除了 `Date`、`Error` 這兩個型別以外必須使用 `new` 才能創建以外，其餘的內建物件再大部分的時候都是可以用 literal 替代 `new` 的。
 
-為了簡短、直觀、效能考量 ( 不用 `new` )，請盡量使用 literal 方式宣告物件。
+為了簡短、直觀、效能考量 ( 因為不需要 `new` )，請盡量使用 literal 方式宣告物件。
 
 
 
 ## 小結
 
-今天主要討論
+今天概述了 JavaScript 的內建物件 (Built-in Objects)，主要討論到的內容有：
+
+* 創建 內建物件 的方式
+  * 利用 `new` 來創建 內建物件
+  * 利用 literal 方式創建
+* 辨別 物件型別
+  * 利用 `typeOf`
+* 辨識 物件 子型別/建構子
+  * `Object.prototype.toString.call()` 可以查看
+  * `instanceOf` 會回傳 boolean，可以用來查看某物件是不是屬於特定的子型別
+* 取出值
+  * 利用 `valueOf()` 可以取出物件的原始內容
+
+由於我們知道，用 literal 方式與用 `new` 產生出的物件，在使用上其實並無不同，因此在實作上，我們應該盡量使用 literal 方式以提高可讀性。
 
 
 
