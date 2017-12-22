@@ -133,7 +133,7 @@ myArray.valueOf();		// []
 
 ## 實作建議
 
-###盡量使用字面值來取代 `new`
+### 盡量使用字面值來取代 `new`
 
 對 `Object` 、`Array`、`Function`、`RegExp` 來說，用 字面值 與用 `new` 產生物件結果是一樣的。
 
