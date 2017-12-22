@@ -160,7 +160,7 @@ myArray.valueOf();		// []
 * **取出值**
   * 利用 `valueOf()` 可以取出物件的原始內容
 
-由於我們知道，用 字面值 方式與用 `new` 產生出的物件，在使用上其實並無不同，因此在實作上，我們應該**盡量使用 字面值來取代 `new`** 方式以提高可讀性。
+由於我們知道，用 字面值 方式與用 `new` 產生出的物件，在使用上其實並無不同，因此在實作上為了簡短、直觀、效能考量，我們應該**盡量使用 字面值來取代 `new`** 方式以提高可讀性。
 
 
 
@@ -173,14 +173,14 @@ myArray.valueOf();		// []
 在 JavaScript 中，我們可以用字面值來表示以下幾種型別：
 
 ```javascript
-var myString = 'hello world';			// string literal
-var mtBoolean = true;				// boolean literal
-var myNumber = 123;				// number literal
-var myFloatNumber = 123.4;			// float number literal
-var myNull = null				// null literal
-var myObject = {};				// object literal
-var myArray = [];				// array literal
-var myRegExp = /ab+c/;				// regExp literal
+'hello world';			// string literal
+true;				// boolean literal
+123;				// number literal
+123.4;				// float number literal
+null				// null literal
+{};				// object literal
+[];				// array literal
+/ab+c/;				// regExp literal
 ```
 
 如範例所示，我們可以用字面值來表示 `undefined` 以外的原始型別，而物件型別如 `Object`、`Array`、`RegExp` 也有其對應的字面值。
