@@ -33,7 +33,7 @@
   console.log(myBooleanObj);
 
   var myObject = new Object();
-  console.log(myObject);					// {}
+  console.log(myObject);				// {}
 
   var myArray = new Array();
   console.log(myArray);					// []
@@ -42,18 +42,18 @@
   console.log(myDate);					// Wed Dec 22 2017 21:47:10 GMT+0800
   ```
 
-* **利用 literal 方式創建**
+* **利用 字面值 ( Literals, 註1 ) 創建**
 
   * 適用於 `Object`、`Array`、`Function`、`RegExp` 。
 
-  * Note：用 literal 方式創建的物件與 `new` 出來的物件是一樣的。
+  * Note：用 字面值方式 創建的物件與 `new` 出來的物件是一樣的。
 
     ```javascript
     var myLiteralObject = {};
-    console.log(myLiteralObject);					// {}
+    console.log(myLiteralObject);			// {}
 
     var myLiteralArray = [];
-    console.log(myLiteralArray);					// []
+    console.log(myLiteralArray);			// []
     ```
 
 ### 辨別 物件型別
@@ -66,7 +66,7 @@
   typeof myStringObj; 		// "object"
   typeof myNumberObj; 		// "object"
   typeof myBooleanObj; 		// "object"
-  typeof myArray; 			// "object"
+  typeof myArray; 		// "object"
   ```
 
   我們可以看到，`String`，`Number`、`Boolean` 的型別都是物件，而非原始型別。
@@ -95,7 +95,7 @@
   myStringObj instanceOf Number; 		// "false"
 
   myObject instanceOf Object			// "true"
-  myLiteralObject instanceOf Object	// "true"
+  myLiteralObject instanceOf Object		// "true"
 
   myArray instanceOf Array			// "true"
   myLiteralArray instanceOf Array		// "true"
@@ -109,53 +109,39 @@
 myStringObj.valueOf();		// "hello world"
 myNumberObj.valueOf();		// 123
 myBooleanObj.valueOf();		// true
-myArray.valueOf();			// []
+myArray.valueOf();		// []
 ```
 
-### 與原始型別比較 ???
+### 與原始型別比較
 
-- **不同點**
+- **物件允許寫入屬性，原始型別則無法**
 
-  - **物件允許寫入屬性，原始型別則無法**
+  原始型別無法寫入屬性請參考上一篇。
 
-    原始型別無法寫入屬性請參考上一篇。
+  ```javascript
+  'use strict'
+  // test read property
+  myStringObj.length;					// 11
 
-    ```javascript
-    'use strict'
-    // test read property
-    myStringObj.length;							// 11
-
-    // test write property
-    myStringObj.myProperty = 'testWrite';
-    myStringObj.myProperty;						// "testWrite"
-    ```
-
-- **相同點**
-
-  - **兩者都能夠讀取其物件型別屬性**
-
-    內建物件因為是物件，所以可以讀取屬性，而如上一篇所說，原始型別會在被讀取屬性時，強制轉型為對應的物件型別，因此也能夠讀取對應物件型別的屬性。
-
-    ```javascript
-    var myStr = 'hello world';
-    myStr.length; 						// 11
-    myStringObj.length;					// 11
-    ```
-
+  // test write property
+  myStringObj.myProperty = 'testWrite';
+  myStringObj.myProperty;				// "testWrite"
+  ```
+  ​
 
 
 
 ## 實作建議
 
-###盡量使用 literal 方式
+###盡量使用字面值來取代 `new`
 
-對 `Object` 、`Array`、`Function`、`RegExp` 來說，用 literal 方式與用 `new` 產生物件結果是一樣的。
+對 `Object` 、`Array`、`Function`、`RegExp` 來說，用 字面值 與用 `new` 產生物件結果是一樣的。
 
-對 `String`、`Number`、`Boolean` 來說，用 literal 方式宣告則會產生原始型別，但因為 [必要時會自動強制轉型成物件型別的特性]()，所以在使用上與其物件型別並無不同。
+對 `String`、`Number`、`Boolean` 來說，字面值宣告會產生原始型別，但因為 [必要時會自動強制轉型成物件型別的特性](https://ithelp.ithome.com.tw/articles/10192598)，所以在使用上與其物件型別並無不同。
 
-也就是說，除了 `Date`、`Error` 這兩個型別以外必須使用 `new` 才能創建以外，其餘的內建物件再大部分的時候都是可以用 literal 替代 `new` 的。
+也就是說，除了 `Date`、`Error` 這兩個型別以外必須使用 `new` 才能創建以外，其餘的內建物件在大部分的時候都是可以用 字面值 替代 `new` 的。
 
-為了簡短、直觀、效能考量 ( 因為不需要 `new` )，請盡量使用 literal 方式宣告物件。
+為了簡短、直觀、效能考量 ( 因為不需要 `new` )，請盡量使用字面值宣告物件。
 
 
 
@@ -163,18 +149,41 @@ myArray.valueOf();			// []
 
 今天概述了 JavaScript 的內建物件 (Built-in Objects)，主要討論到的內容有：
 
-* 創建 內建物件 的方式
+* **創建 內建物件 的方式**
   * 利用 `new` 來創建 內建物件
-  * 利用 literal 方式創建
-* 辨別 物件型別
+  * 利用 字面值 (Literals) 創建
+* **辨別 物件型別**
   * 利用 `typeOf`
-* 辨識 物件 子型別/建構子
+* **辨識 物件 子型別/建構子**
   * `Object.prototype.toString.call()` 可以查看
   * `instanceOf` 會回傳 boolean，可以用來查看某物件是不是屬於特定的子型別
-* 取出值
+* **取出值**
   * 利用 `valueOf()` 可以取出物件的原始內容
 
-由於我們知道，用 literal 方式與用 `new` 產生出的物件，在使用上其實並無不同，因此在實作上，我們應該盡量使用 literal 方式以提高可讀性。
+由於我們知道，用 字面值 方式與用 `new` 產生出的物件，在使用上其實並無不同，因此在實作上，我們應該**盡量使用 字面值來取代 `new`** 方式以提高可讀性。
+
+
+
+## 附註
+
+### 1. 字面值 (Literals)
+
+*以字面的方式來表示特定型別的固定值*
+
+在 JavaScript 中，我們可以用字面值來表示以下幾種型別：
+
+```javascript
+var myString = 'hello world';			// string literal
+var mtBoolean = true;				// boolean literal
+var myNumber = 123;				// number literal
+var myFloatNumber = 123.4;			// float number literal
+var myNull = null				// null literal
+var myObject = {};				// object literal
+var myArray = [];				// array literal
+var myRegExp = /ab+c/;				// regExp literal
+```
+
+如範例所示，我們可以用字面值來表示 `undefined` 以外的原始型別，而物件型別如 `Object`、`Array`、`RegExp` 也有其對應的字面值。
 
 
 
@@ -185,3 +194,5 @@ myArray.valueOf();			// []
 https://www.w3schools.com/js/js_arrays.asp
 
 https://www.w3schools.com/js/js_object_definition.asp
+
+https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Guide/Grammar_and_types
