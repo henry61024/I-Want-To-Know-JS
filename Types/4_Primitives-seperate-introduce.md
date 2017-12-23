@@ -1,8 +1,6 @@
 # 原始型別個別介紹
 
-無論是哪個語言，掌握型別的特性都是非常重要的基本功。這點在 JavaScript 中尤其重要，當不了解型別的特性時，總是會在意想不到的地方被 JavaScript 的地雷炸個粉身碎骨，然而當你聊若指掌時，你便能寫出更為優雅的程式。
-
-// Quote 優良部分 http://shop.oreilly.com/product/9780596517748.do
+無論是哪個語言，掌握型別的特性都是非常重要的基本功。這點在 JavaScript 中尤其重要，當不了解型別的特性時，總是會在意想不到的地方被 JavaScript 的地雷炸個粉身碎骨，然而當你聊若指掌時，你便能寫出更為優雅的JavaScript 程式。
 
 讓我們複習一下 JavaScript 原始型別有哪些：
 
@@ -400,9 +398,11 @@ var nothing = null;
 
 飛肯設計: 進階 JS 班
 
-JavaScript : The good parts
+[JavaScript : The good parts](http://shop.oreilly.com/product/9780596517748.do)
 
 https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Guide/Grammar_and_types
+
+https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/A_re-introduction_to_JavaScript
 
 https://www.fooish.com/javascript/number/
 
