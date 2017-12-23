@@ -35,7 +35,7 @@ var myString = 'hello world';
   var myStringObj = String('hello world');
   ```
 
-  有沒有覺得跟 Object 的字面值很像呢? 沒錯，String 索引就是物件的屬性，因此我們可以把他想成：
+  有沒有覺得跟 Object 的字面值很像呢? 沒錯，String 物件的索引就是物件的屬性，我們可以把他想成：
 
   ```javascript
   {
@@ -59,7 +59,7 @@ var myString = 'hello world';
   myString[0] = 'h';
   ```
 
-  接著再複習一次原始型別提過的事情：讀取原始型別屬性時會觸發強制轉型
+  接著再複習一次 [原始型別概述篇](https://ithelp.ithome.com.tw/articles/10192598)提過的事情：讀取原始型別屬性時會觸發強制轉型
 
   ```javascript
   var myString = 'hello world';
@@ -152,7 +152,7 @@ var myNumber = 100,
 
 ### 注意事項
 
-* JavaScript 浮點數運會有誤差值
+* **JavaScript 浮點數運會有誤差值**
 
   因為是依據 [IEEE 754 的雙精度 (64位元)](https://zh.wikipedia.org/wiki/IEEE_754) 去做轉換，因此在做浮點數運算的時候最好搭配 `parseFloat()` 與  `toFixed()` 來確保正確性。
 
@@ -162,7 +162,7 @@ var myNumber = 100,
   parseFloat((0.1 + 0.2).toFixed(10)) === 0.3;		// true
   ```
 
-* NaN
+* **NaN**
 
   * NaN (Not a Number) 卻屬於 Number
 
@@ -278,7 +278,6 @@ var myBoolean = false;
     if ((value === undefined) && (value === '')) {
     	// do something
     }
-    return Boolean(value1) && Boolean(value2)
     ```
 
     那不如就簡化成：
@@ -331,18 +330,18 @@ var nothingInside;
 console.log(nothingInside);		// undefined
 ```
 
-有沒有發現這邊並沒有說 `var nothing = undefined` 是一個字面值呢? 其實程式中直接打出的 `undefined` 是一個全域變數，他內部的值就是 `undefined`，而他們的型別也是 `undefined`。因此若你直接指派 undefined 給一個變數，這並不會是 字面值，而會是將 `undefined` 全域變數指派給另一個變數的動作。可以參考：
+有沒有發現這邊並沒有說 `var nothing = undefined` 是一個字面值呢? 其實程式中直接寫明的 `undefined` 是一個全域變數，他內部的值就是 `undefined`，而它屬於 `undefined` 型別。因此若你直接指派 undefined 給一個變數，這並不會是 字面值的宣告方式，而會是將 `undefined` 全域變數指派給另一個變數的動作。可以參考：
 
 https://msdn.microsoft.com/zh-tw/library/dae3sbk5
 
 ### 注意事項
 
-* 並不是 [JSON-Safe](https://www.reddit.com/r/learnjavascript/comments/4xfai4/what_jsonsafe_means_which_data_types_wouldnt_be/)，因為 undefined 是 JavaScript 獨有的值
+* undefined 並不是 [JSON-Safe](https://www.reddit.com/r/learnjavascript/comments/4xfai4/what_jsonsafe_means_which_data_types_wouldnt_be/)，因為 undefined 是 JavaScript 獨有的值
 
 ### 實作建議
 
 * 單純宣告時不需要特別把 undefined 指派給變數，除非是要覆蓋
-* 當預期看到值的時候，卻得到 undefined ，很可能代表該 變數/屬性 根本沒有被操作過，有機會是漏了操作，也或者是你操作到其他值了。這個概念可以作為一個 debug 的依據。
+* 當預期看到值的時候，卻得到 undefined ，很可能代表該 變數/屬性 根本沒有被操作過，有機會是漏了操作，也或者是你不小心操作到其他值了。這個概念可以作為一個 debug 的依據。
 
 
 
