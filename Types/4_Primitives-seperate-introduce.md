@@ -187,8 +187,6 @@ boolean總共只會有兩種值：`true` & `false`，雖然看似簡單，但使
 
 boolean 的 字面值就是 `true` 或者 `false` 。
 
-// literal ???
-
 ```javascript
 var myBoolean = true;
 var myBoolean = false;
@@ -339,7 +337,7 @@ https://msdn.microsoft.com/zh-tw/library/dae3sbk5
 
 ### 注意事項
 
-* 並不是 JSON-Safe，因為 undefined 是 JavaScript 獨有的值
+* 並不是 [JSON-Safe](https://www.reddit.com/r/learnjavascript/comments/4xfai4/what_jsonsafe_means_which_data_types_wouldnt_be/)，因為 undefined 是 JavaScript 獨有的值
 
 ### 實作建議
 
@@ -376,7 +374,7 @@ var nothing = null;
 
   當你看到一個 變數/屬性 為 null 時，就代表他一定有個地方被指派為 null 過，因為不像是 undefined 代表 JavaScript 的預設值。如果在非預期的狀況下看到 null 的話，這個概念可以作為 debug 的依據。
 
-* **因為大部分程式都有 null，因此 null 是 [JSON-Safe]()**
+* **因為大部分程式都有 null，因此 null 是 [JSON-Safe](https://www.reddit.com/r/learnjavascript/comments/4xfai4/what_jsonsafe_means_which_data_types_wouldnt_be/)**
 
 ### 實作建議
 
@@ -386,17 +384,27 @@ var nothing = null;
 
 
 
+
+
 ## 小結
 
 此篇介紹了 JavaScript 中，每個原始型別的特性與注意事項
+
+* **string：**string 可利用索引去拿取每個字元
+* **number：**number 的浮點數並不精準，因為他是基於 [IEEE 754 的雙精度 (64位元)](https://zh.wikipedia.org/wiki/IEEE_754)去做轉換。
+* **boolean：**謹記 truthy & falsy 有哪些值與強制轉型的使用方法，他們能讓你的程式更優美。
+* **null：**代表"無"，是人為賦值的，且 `typeof null === "object"`
+* **undefined：**undefined是 JavaScript 的預設值，若宣告變數不給值，那他的內容就是 `undefined`
+
+了解每個型別的特性有助於避開地雷提高程式的品質，如此，你便能寫出更為優雅的JavaScript 程式。
 
 
 
 ## 參考資料
 
-保哥 JavaScript
+[保哥 JavaScript 開發實戰：核心概念篇](https://www.accupass.com/event/1710170207181263097416)
 
-飛肯設計: 進階 JS 班
+[飛肯設計: 進階 JS 班](http://www.flycan.com.tw/course/course-javascript-adv.php)
 
 [JavaScript : The good parts](http://shop.oreilly.com/product/9780596517748.do)
 
