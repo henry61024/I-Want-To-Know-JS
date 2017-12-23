@@ -389,11 +389,11 @@ var nothing = null;
 
 此篇介紹了 JavaScript 中，每個原始型別的特性與注意事項
 
-* **string：**string 可利用索引去拿取每個字元
-* **number：**number 的浮點數並不精準，因為他是基於 [IEEE 754 的雙精度 (64位元)](https://zh.wikipedia.org/wiki/IEEE_754)去做轉換。
-* **boolean：**謹記 truthy & falsy 有哪些值與強制轉型的使用方法，他們能讓你的程式更優美。
-* **null：**代表"無"，是人為賦值的，且 `typeof null === "object"`
-* **undefined：**undefined是 JavaScript 的預設值，若宣告變數不給值，那他的內容就是 `undefined`
+* **string：** string 可利用索引去拿取每個字元
+* **number：** number 的浮點數並不精準，因為他是基於 [IEEE 754 的雙精度 (64位元)](https://zh.wikipedia.org/wiki/IEEE_754)去做轉換。
+* **boolean：** 謹記 truthy & falsy 有哪些值與強制轉型的使用方法，他們能讓你的程式更優美。
+* **null：** 代表"無"，是人為賦值的，且 `typeof null === "object"`
+* **undefined：** undefined是 JavaScript 的預設值，若宣告變數不給值，那他的內容就是 `undefined`
 
 了解每個型別的特性有助於避開地雷提高程式的品質，如此，你便能寫出更為優雅的JavaScript 程式。
 
