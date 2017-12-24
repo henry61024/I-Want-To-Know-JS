@@ -20,8 +20,8 @@ var myObj = { prop1: 'hello world', "prop-2": 123 };
 
 *屬性就是 key/value 的組合*
 
-* **key：**也就是 這個屬性的名稱，任何字串都可以作為 key，JavaScript 中的 Array ( 註 2 )就是一個很好的說明範例。
-* **value：**在 value 中可以放入任何型別的值，當然也包括物件。
+* **key：** 也就是 這個屬性的名稱，任何字串都可以作為 key，JavaScript 中的 Array ( 註 2 )就是一個很好的說明範例。
+* **value：** 在 value 中可以放入任何型別的值，當然也包括物件。
 
 以上面的例子來說，`myObj` 的第一個屬性的 key 是 `prop1`，value 為 `'hello world'`。
 
