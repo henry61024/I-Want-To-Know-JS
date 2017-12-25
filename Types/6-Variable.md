@@ -63,14 +63,14 @@ console.log(a);						// "hello world"
 
 ### 變數 與 根物件
 
-- 在全域範疇 ( Global Scope ) 中宣告的 變數 會是 根物件 的屬性
+- **在全域範疇 ( Global Scope ) 中宣告的 變數 同時會是 根物件 的屬性**
 
   ```javascript
   var a = 'hello world';
-  console.log(a);					// "hello world"
+  console.log(window.a);					// "hello world"
   ```
 
-- 非 `strict mode` 下，不用 `var` 宣告就使用未曾出現的變數名稱，則該變數名稱會變成根物件的屬性。
+- **非 `strict mode` 下，不用 `var` 宣告就使用未曾出現的變數名稱，則該變數名稱會變成根物件的屬性**
 
   ```javascript
   function innerTest() {
@@ -78,6 +78,7 @@ console.log(a);						// "hello world"
   }
   innerTest();
   console.log(innerVar);					// "Im innerVar"
+  console.log(window.innerVar);			// "Im innerVar"
   ```
 
   在 `'use strict'` 下則不允許使用未宣告的變數。
@@ -90,16 +91,34 @@ console.log(a);						// "hello world"
   	innerVar = 'Im innerVar'; 		//  Uncaught ReferenceError: innerObj is not defined
   }
   innerTest();
-  console.log(innerVar);					
+  console.log(innerVar);
+  console.log(window.innerVar);
   ```
 
   我們能看到在 `innerObj` 一出現就產生了 `Uncaught ReferenceError` 的錯誤訊息，這是因為 `'use strict'` 下的 JavaScript 試圖往上尋找 `innerObj` 這個未宣告的變數，而找不到的結果就是回傳 `ReferenceError`。
 
-- 敘述前兩點之間的差別，利用變數不能delete的特性
+- **在全域範疇 ( Global Scope ) 中宣告變數**  vs. **不用 `var` 宣告就使用未曾出現的變數名稱**
 
-  - 更貼切來講，2是宣告了根物件屬性，而非變數?
-  - 試試一般的內建函式能不能被刪除?
-  - ???
+  這兩點達成的效果看起來很類似，我們都可以在任何地方取得他的值，然而還是有一點不同：
+
+  **不同點：**不用 `var` 宣告就使用未曾出現的變數名稱，則他只會是根物件的屬性，但不會是一個屬性
+
+  我們利用 **變數無法被刪除 **這個規則就可以很容易的驗證這點：
+
+  ```javascript
+  var a = 'hello world';
+  delete a;								// false
+  console.log(window.a);					// "hello world"
+
+  function innerTest() {
+  	innerVar = 'Im innerVar';
+  }
+  innerTest();
+  delete innerTest();						// true
+  console.log(window.innerVar);			// Uncaught ReferenceError: innerVar is not defined at <anonymous>:1:1
+  ```
+
+  我們可以看到，使用 `var` 宣告的 `a` 無法被刪除，而並未使用 `var` 宣告的 `innerVar` 則成功被刪除，由此可得知 `innerVar` 並不真的是一個變數，而是根物件 `window` 的屬性而已。
 
 ### 變數與屬性
 
@@ -125,7 +144,6 @@ console.log(a);						// "hello world"
     console.log(window.myProp);			// undefined
     ```
 
-    ​
 
 ### 實作建議
 
@@ -142,13 +160,6 @@ console.log(a);						// "hello world"
   * 無論在任何地方**宣告變數時，務必使用 `var`** ，否則會變成全域變數的屬性
   * **盡量不要在全域範疇 ( Global Scope ) 中宣告變數**，否則會變成全域變數的屬性
 
-
-
-
-
-## 題外話
-
-Will
 
 
 
