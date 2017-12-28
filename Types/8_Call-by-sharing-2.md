@@ -160,3 +160,5 @@ console.log(myObj);						// { prop1: 456 }
 https://www.slideshare.net/YiTaiLin/java-script-63031051
 
 [保哥 JavaScript 開發實戰：核心概念篇](https://www.accupass.com/event/1710170207181263097416)
+
+https://github.com/getify/You-Dont-Know-JS
