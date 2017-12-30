@@ -8,7 +8,7 @@
 
 ## Hoisting ( 拉升 )
 
-***JavaScript 會把所有的宣告般拉升到當前 Scope 的最上面***
+***JavaScript 會把所有的宣告拉升到當前 Scope 的最上面***
 
 為了清楚了解 JavaScript 行為，當然要二話不說地開啟空白頁測試。
 
@@ -61,7 +61,7 @@ console.log(myString);				// outer
 
 ### 函式拉升
 
-還記得函式跟物件享有相似的特性/待遇嗎？同樣的，函式也會被拉升：
+還記得[函式跟物件享有相似的特性/待遇](https://ithelp.ithome.com.tw/articles/10194538)嗎？同樣的，函式也會被拉升：
 
 ```javascript
 (function hoistFunction() {
@@ -130,7 +130,7 @@ JavaScript Compiler 會將程式碼解析成有意義的語法結構，轉換成
 
 JavaScript 有 Hoisting 的特性。何謂 Hoisting 呢？
 
-Hoisting 就是 **把所有的宣告般拉升到當前 Scope 的最上面** 的特性，其中，我們必須注意幾點：
+Hoisting 就是 **把所有的宣告拉升到當前 Scope 的最上面** 的特性，其中，我們必須注意幾點：
 
 * **只有宣告會被拉升到當前 Scope 的最上面**
 * **函式也會被拉升**
