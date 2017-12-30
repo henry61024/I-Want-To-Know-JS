@@ -181,9 +181,9 @@ console.log(myString);				// "hello global"
 
 * **JavaScript 中，是有方法能夠脫離 `Lexical Scope` 的**，最常見的方法就是 `eval`。
 
-  使用 `eval`，不但會造成程式碼難以 Debug，也會造成效能低落，因為編譯器無法預先知要執行的程式是甚麼，自然也就無法最佳化 `eval` 述句與相關程式碼的效能。
+  `eval` 可以輸入字串，編譯器會在執行時期時把他轉成程式碼，也就是說他脫離了 Lexical Scope 是在編譯時期就決定好 Scope 的概念。
 
-  可以參考：https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval
+  如果要更深入了解 `eval`，可以參考：https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval
 
 
 
@@ -197,7 +197,7 @@ console.log(myString);				// "hello global"
 
 * **盡量別用 `eval`**
 
-  使用 `eval`，不但會造成程式碼難以 Debug，也會造成效能低落，因為編譯器無法預先知道輸入的程式會是甚麼，自然也就無法最佳化效能。
+  使用 `eval`，不但會造成程式碼難以 Debug，也會造成效能低落，因為編譯器無法預先知要執行的程式是甚麼，自然也就無法最佳化 `eval` 述句與相關程式碼的效能。
 
 
 
