@@ -47,7 +47,7 @@ console.log(innerFn());			// inner
 
 因此，如果 `testClosure` 與 `getInner` 都被執行的話，我們就會得到以下的泡泡圖：
 
-![../Image/13_Closure/closure-0.png](../Image/13_Closure/closure-0.png)
+![../Image/13_Closure/closure-1.png](../Image/13_Closure/closure-1.png)
 
 ### 傳遞了被包裹的 Function
 
