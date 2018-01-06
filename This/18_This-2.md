@@ -1,6 +1,6 @@
 # JavaScript This
 
-先讓我們前情提要一下，JavaScript 中的 **this 取決於 Function 的執行情境與方式**，而在 You don't know JS 中，詳細的說明了在執行了 Function後，JavaScript this 的五種繫結：
+先讓我們前情提要一下，JavaScript 中的 **this 取決於 Function 的執行情境與方式**，而在 *You don't know JS* 中，詳細的說明了在執行了 Function後，JavaScript this 的五種繫結：
 
 - 預設繫結
 - 隱含繫結
@@ -82,7 +82,7 @@ obj2.log();										// "hello object1"
 
 #### `bind` 的強制繫結
 
-有沒有想過當我們對被 `bind` 包裹的函式在進行一次明確指定 this 的話會怎麼樣？看看 `bindedFn.call(obj2);` 的結果會是甚麼，出乎意料的，`bindedFn` 的 this 竟然沒有被指定回 `obj2`，而是依然保留在 `obj1`。為什麼呢？就來回顧一下我們自製的簡易 bind polyfill 吧：
+有沒有想過當我們對被 `bind` 包裹的函式再進行一次明確指定 this 的話會怎麼樣？看看 `bindedFn.call(obj2);` 的結果會是甚麼，出乎意料的，`bindedFn` 的 this 竟然沒有被指定回 `obj2`，而是依然保留在 `obj1`。為什麼呢？就來回顧一下我們自製的簡易 bind polyfill 吧：
 
 ```javascript
 function bind(t, callback) {
@@ -216,7 +216,7 @@ console.log(obj.myString);				// "hello anonymous function"
 
 我們執行 `outer.call(obj)` 後，我們立即把 this 指派給新的變數 self，往後所有關於 this 的操作，我們都以 self 來替代。
 
-當執行 `anonymousFn()` 時，首先就向 Scope 往上查找 `self`，馬上的我們就在 `outer` 的 Scope 中發現了他，而此時 self 的內容正是 `outer` 執行時被指派的 this：`obj`。同樣的，往後 `anonymousFn` 的 this 都會是 `obj` 了，因為我們不再直接對 this 做操作，而是用新變數 `self` 來代為操勞了。因此 `obj.myString` 的內容會是 `"hello arrow function"`。
+當執行 `anonymousFn()` 時，首先向 Scope 往上查找 `self`，接著就在 `outer` 的 Scope 中發現了它，而此時 self 的內容正是 `outer` 執行時被指派的 this：`obj`。同樣的，往後 `anonymousFn` 的 this 都會是 `obj` 了，因為我們不再直接對 this 做操作，而是用新變數 `self` 來代為操勞了。因此 `obj.myString` 的內容會是 `"hello arrow function"`。
 
 
 
