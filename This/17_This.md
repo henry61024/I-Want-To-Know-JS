@@ -24,7 +24,7 @@
 
 * 當我們用最陽春的方式 **單獨呼叫函式** 的時候，就會套用預設繫結。
 
-  什麼意思呢？就是他不是被當作物件的方法調用，且只使用 `()` 執行此 Function 的話，此 Function 中的 this 就會套用預設細節。
+  什麼意思呢？就是他不是被當作物件的方法調用，且只使用 `()` 執行此 Function 的話，此 Function 中的 this 就會套用預設繫結。
 
 * 當我們刻意忽略 this 的時候
 
@@ -64,7 +64,7 @@ logMyString();						// "hello global"
 
 又或者有人回答 `"hello local"`，因為把 this 連結到 Scope 本身好像也是一個很合理的概念，但很可惜的，我們是不可能透過 JavaScript 中的 this 去找到任何的 Scope 變數的。
 
-讓我們來看看 console 中執行看看結果會是什麼吧。挖，答案竟然是 `"hello global"`。
+讓我們來看看 console 中執行看看結果會是什麼吧。哇，答案竟然是 `"hello global"`。
 
 #### 利用套用情境推理
 
@@ -93,7 +93,7 @@ logMyString.myString = 'hello function';
 logMyString();
 ```
 
-沒錯，這符合我們的預期 **在嚴格模式下，this 的內容就會是 `undefined`**。
+沒錯，這符合我們的預期 **在嚴格模式下，this 的內容就會是 `undefined`** 。
 
 ### 保持使用嚴格模式
 
@@ -133,6 +133,7 @@ logMyString.myString = 'hello function';
 logMyString();						// "hello global"
 obj.log();							// "hello object"
 obj.innerObj.log();					// "hello inner object"
+
 var logMyString2 = obj.log;
 logMyString2();						// "hello global"
 ```
