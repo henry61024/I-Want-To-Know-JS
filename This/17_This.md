@@ -149,7 +149,7 @@ logMyString2();						// "hello global"
 
 最後我們將 `obj.log` 這個方法指派給 `logMyString2`，緊接著以 `logMyString2()` 執行。此時我們**要套用的規則會是預設繫結**，因為它符合 *用 `()` 單獨呼叫函式* 的規則，`logMyString2` 不會因為他曾經被當作方法執行過所以就永遠都套用隱含繫結。
 
-再更深入一點說明，當我們利用 [Call by sharing](https://ithelp.ithome.com.tw/articles/10194299) 的觀點來看時，會知道**方法只是代表一個屬性內存著 Function 的記憶體位置**而已，並不代表這個 Function 真正為物件所擁有。因此如果我們把方法指派給另一個變數，也就只是這個方法跟被指派變數同時都指向同一個 Function 的記憶體位置，如此而已，被指派變數也當然就不會知道目前指向的 Function 曾經被當作方法執行過。
+會有這個錯覺是因為我們以為只要 Function 曾經被當作一個方法使用的話，這個 Function 就會永遠屬於物件的了。但當我們更深入的利用 [Call by sharing](https://ithelp.ithome.com.tw/articles/10194299) 的觀點來看時，會知道**方法其實只是代表一個屬性內存著 Function 的記憶體位置**，並不代表這個 Function 真正為物件所擁有。因此如果我們把方法指派給另一個變數，也就只是這個方法跟被指派變數同時都指向同一個 Function 的記憶體位置，如此而已，被指派變數也當然就不會知道目前指向的 Function 曾經被當作方法執行過。
 
 回到範例，在執行 `logMyString2()` 時，當然會套用預設繫結，因為這個 Function 現在就是被存在一個變數中單獨執行，已經不是當初 `obj.log` 中，被當作方法執行的情境了！因此此時我們的 this 會是代表 global，答案又會回到 `"hello global"`！
 
