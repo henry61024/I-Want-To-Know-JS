@@ -80,5 +80,11 @@ console.log(dog);			// Dog {name: "Blacky", speak: "Bark", move: "walk"}
 - 回傳新建物件 ( 如果建構式本身沒有回傳東西的話 )
 
 
-
 下一篇中將繼續介紹 JavaScript 物件導向程式。
+
+
+
+## 參考
+
+[You Don't Know JS: this & object prototypes](https://github.com/getify/You-Dont-Know-JS/tree/master/this%20%26%20object%20prototypes)
+
