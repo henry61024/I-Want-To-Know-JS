@@ -74,7 +74,7 @@ dog2.speak();					// "Bow-wow"
 
 為了證明這點，讓我們試試看直接將 `Dog.prototype.speak` 改成印出 `"Bow-wow"`，看看會不會所有的 `dogX` 的叫聲都變成 `"Bow-wow"`。果然如我們所料，在改完原型函式之後、`dog1` 與 `dog2` 叫聲都變成 `"Bow-wow"` 了！
 
-### \__proto__
+### \_\_proto\_\_
 
 此時在觀察一下 `dog1` 跟 `dog2` 的物件在我們 Dev Tool 上看起來會長怎麼樣：
 
