@@ -182,3 +182,62 @@ var myLibrary = (function() {
   ```
 
   這樣是不是清爽很多呢？
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Best Practice
+
+- 不要用 `typeof null === "object"`
+- `argument.length` when parameter is optional
+
+
+- `&&` ???
+
+  當 `&&` 出現時， JavaScript 會把 左運算元 跟 右運算元 分別強制轉型後再做 AND 的動作
+
+  ```
+  console.log( 'hello world' && undefined );		//false
+  ```
+
+- `||`
+
+  與 `&&` 概念相同
+
+  ```
+
+  ```
+
+  ​
+
+- `? :` choose function, value
+
+- truthy falsy
+
+- `setTimeout(function(){})`、`bind`
+
+- `!!`
+
+- `if {}` 要 `{}`
+
+
+- 可將 parameter設成optional，function內部搭配 `!!` 使用 ( `arguments.length` )
+
+
+- 常見錯誤，例如 undefined
+- 跟隨 team 的 coding style => 跟隨大專案的 coding style
+- **專案一致性**
+
+
+
+- **不要使用 delete 来删除一个数组中的项**
+- length = 0
