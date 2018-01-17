@@ -69,9 +69,6 @@ var myLibrary = (function() {
 
 
 
-## 善用 Truthy & Falsy
-
-
 
 ## 簡潔程式
 
@@ -109,23 +106,161 @@ var myLibrary = (function() {
 
   拒絕匿名 callback 強迫症是你我都該做的事情。
 
+### 善用 Truthy & Falsy
+
+這點曾在 [原始型別篇](https://ithelp.ithome.com.tw/articles/10193371) 提過。如果今天我們要判斷一個值是否為 `undefined` 或是 `''`，依照其他語言的習慣我們可以這樣寫：
+
+- **不使用 Truthy & Falsy**
+
+  ```javascript
+  if ((value === undefined) && (value === '')) {
+  	// do something
+  }
+  ```
+
+  那不如就簡化成：
+
+- **使用 Truthy & Falsy ( 較建議 )**
+
+  ```javascript
+  if (!value) {
+  	// do something
+  }
+  ```
+
+  會簡潔許多
+
+  又或者說要回傳一個 boolean 值
+
+- **不使用 Truthy & Falsy**
+
+  ```javascript
+  function returnBoolean() {
+    	// ..
+  	return Boolean(value1) && Boolean(value2);
+  }
+  ```
+
+  那不如這樣簡化
+
+- **使用 Truthy & Falsy ( 較建議 )**
+
+  ```javascript
+  function returnBoolean() {
+    	// ..
+  	return !!value1 && !!value2;
+  }
+  ```
+
+  利用 Truthy & Falsy 可以有效提高易讀性。
+
 ### 善用三元運算式 (Ternay Operators)
 
-相較於拒絕無用的匿名 callback，善用三元運算式這點就是個比較主觀的意見。
+善用三元運算式 可以讓程式更為簡潔。
 
-```
+假設現在我們要決定圖片的高度與寬度，如果大於 200 就設為兩百：
 
-```
+* **使用 `if`：**
 
+  ```javascript
+  function myFn(height, width) {
+    if (height > 200) {
+      height = 200;
+    }
+    if (width > 200) {
+      width = 200;
+    }
+    // do something
+  }
+  ```
 
+  這會是一般的寫法，如果使用三元運算式的話，我們可以將程式簡化成這樣：
+
+* **使用 三元運算式 ( 較推薦 )**
+
+  ```javascript
+  function myFn(height, width) {
+    height = (height > 200) ? 200 : height;
+    width = (width > 200) ? 200 : width;
+    // do something
+  }
+  ```
+
+  使用三元運算式可以讓程式更為簡潔，除此之外，閱讀者也可以很清楚的知道你的意圖就是要賦值 ( 因為開頭就是 `變數 = ... ` )。
+
+  更進一步，我們還可以把 三元運算式 運用在決定函式上。
+
+  舉個例子來說，假設我們今天依照想不想睡來決定要做什麼事情，我們可能會這樣寫
+
+* **使用 `if`：**
+
+  ```javascript
+  function doSomething(isSleepy) {
+    if (isSleepy) {
+      drinkCoffee();
+    } else {
+      startCoding();
+    }
+  }
+
+  function drinkCoffee() {...} 
+  function startCoding() {...} 
+  ```
+
+  如果使用三元運算式的話：
+
+* **使用 三元運算式**
+
+  ```javascript
+  function doSomething(isSleepy) {
+    var decision = isSleepy ? drinkCoffee : startCoding;
+    decision();
+  }
+
+  function drinkCoffee() {...} 
+  function startCoding() {...} 
+  ```
+
+  這樣也不失為一種做法。當然，相較於使用三元運算式還單純賦值，使用三元運算式來決定要使用哪個函式可能就更為主觀了！
 
 ### 善用各種 Operator
 
+與善用三元運算式一樣，Operator 會是簡潔程式碼強大的工具。
 
+讓我們把剛剛圖片寬高的需求稍作修改，假設我們的寬與高是 `undefined` 的話，就把他們設為 200，否則保持原值。
+
+* **不使用 Operator：**
+
+  ```javascript
+  function myFn(height, width) {
+    if (!height) {
+      height = 200;
+    }
+    if (!width) {
+      width = 200;
+    }
+    // do something
+  }
+  ```
+
+
+* **使用 Operator ( 較建議 )：**
+
+  ```javascript
+  function myFn(input) {
+    height = height || 200;
+    width = width || 200;
+    // do something
+  }
+  ```
+
+  可以看到，在這個範例中，相較於第一個作法，使用 `||` Operator 會更壓倒性的易讀。
+
+  在 JavaScript 中還有許多的 Operator，在這邊就不再贅述，但我們要知道如果對於各種 Operator 都有更深的了解，也許就會發現新的一片天。
 
 ### `if return` vs `if {}` 
 
-同樣是另一個主觀的意見，但個人會喜歡拿 `if return` 來取代 `if {}`。
+同樣是另一個主觀的意見，如果我們的 `if` 是要拿來做一些是否要接續執行函式的判斷，那麼可以用 `if return` 來取代 `if {}`。
 
 這句話是什麼意思呢？首先讓我們來看看範例，現在我們要檢查 `input` 是否為 `undefined`，如果不是 `undefined` 的話我們才要接著做事。很直覺的作法會如下：
 
@@ -152,9 +287,10 @@ var myLibrary = (function() {
 
   這種寫法中言簡意賅的表示，如果 input 是 `undefined` 等 falsy 值，就可以直接略過這個函式不看了。
 
-相較之下，使用第一個寫法的話，在 trace 程式碼時你還要確定 `if` 結束的 `}` 位置是不是真的在函式的最下方，畢竟有可能在 `}` 之後還有做其他的事。
+  相較之下，使用第一個寫法的話，在 trace 程式碼時你還要確定 `if` 結束的 `}` 位置是不是真的在函式的最下方，畢竟有可能在 `}` 之後還有做其他的事。
 
-還有另外一點是，`if return` 可以讓程式的排版變得更扁平化。舉例來說，假如今天這個函式包含了很多其他的邏輯，那你的函式可能就會有變成 *波動拳* 的趨勢了：
+  還有另外一點是，`if return` 可以讓程式的排版變得更扁平化。舉例來說，假如今天這個函式包含了很多其他的邏輯，那你的函式可能就會有變成 *波動拳* 的趨勢了：
+
 
 * **使用 `if {}`**
 
@@ -186,9 +322,17 @@ var myLibrary = (function() {
 
 
 
+## 小結
+
+這篇中介紹了一些偏向小技巧的 Coding Style。
+
+有注意到嗎，其實 Coding Style 就像是對於程式的執著與熱誠，只要在小細節多思考、多留心，就能夠做出巨大的改變，不但能寫出優雅許多的程式，我們也會因為這些執著與經驗的累積而變成更好的程式設計師。
 
 
 
+## 參考資料
+
+工作上的小經驗 與 前輩們的指導
 
 
 
