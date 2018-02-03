@@ -4,8 +4,9 @@
 
 在此之前，先讓我們重新認識一下屬性。
 
-常常我們會認為屬性就是 key/value 的組合，實際上確實是如此，但除此之外，還有一些 屬性的**設定** 藏在裡面，我們就把這些屬性的**設定** 稱為 **屬性的特徵**，而供我們設定這些屬性特徵的函式我們就把它稱為 **屬性描述器**。
+常常我們會認為屬性就是 key/value 的組合，實際上確實是如此，但除此之外，還有一些 屬性的**設定** 藏在裡面，我們就把這些屬性的**設定** 稱為 **屬性的特徵**，而設定這些屬性特徵的函式我們就把它稱為 **屬性描述器**。
 
+當對於屬性除了指定 key/value 以外有更進一步的要求時，例如設定屬性為 read-only 甚至是 constant 時，就可以使用 **屬性描述器**。
 
 
 使用時機
@@ -22,6 +23,8 @@
 
 也就是 ***屬性的設定***
 
+###  特徵的種類
+
 實際上，屬性特徵有以下六種：
 
 - writable
@@ -33,11 +36,23 @@
 
 而這些特徵都是可以透過屬性描述器去設定的 ( `Object.defineProperty` 與 `Object.definedProperties` )
 
+### 使用字面值宣告屬性的特徵
+
+一般在使用屬性字面值宣告屬性的時候：
+
+- `writable`、`configurable`、`enumerable` 都會為 `true`
+- `value` 就代表屬性的值
+- `get`、`set` 則是沒有設定。
+
+這點我們可以用 `obj.getOwnPropertyDescriptor('properyName')` 來驗證。我們將在後面介紹這個函式。
+
 
 
 ## 屬性描述器
 
-在 ES5 之後，我們就可以使用 `Object.defineProperty` 與 `Object.definedProperties` 來設定屬性的特徵。
+在 ES5 之前，我們並沒有手動去設定一個屬性的特徵 (除了 `value`) 以外。
+
+在 ES5 之後，JavaScript 提供了 `Object.defineProperty` 與 `Object.definedProperties` 這兩個屬性描述器介面，讓開發者設定屬性的特徵。
 
 ### Object.defineProperty
 
@@ -118,15 +133,15 @@ console.log(obj.prop2);			// "This is prop2"
 
 代表 ***屬性是否可改值***
 
-換句話說，可以控制屬性是否為 read-only
+### 設定屬性為 read-only
 
-當我們使用屬性的字面值 ( `obj.prop` 與 `obj[prop]` ) 定義屬性時，屬性的 `writable` 相當於 `true`，也就代表可以寫入。
+換句話說，`writable` 可以控制屬性是否為 read-only
 
-那就讓我們來看看當 `writable: false` 時，嘗試寫入會發生什麼事情：
+當我們使用屬性的字面值 ( `obj.prop` 與 `obj[prop]` ) 定義屬性時，屬性的 `writable` 為 `true`，也就代表可以寫入。相較之下，當 `writable: false` 就代表此屬性為 `read-only`。
 
-### read-only 時無法寫入
+就讓我們試試在 read-only 時嘗試寫入值會發生什麼事情：
 
-在非嚴格模式下，還是可以對 `writable: false` 的屬性做寫值的動作，但是會沒有效果：
+在 非嚴格模式下，還是可以對 `writable: false` 的屬性做寫值的動作，但是會沒有效果：
 
 ```javascript
 var obj = {};
@@ -151,7 +166,7 @@ obj.prop1 = 'This is prop2';
 console.log(obj.prop1);           // Uncaught TypeError: Cannot assign to read only property 'prop1' of object
 ```
 
-預設值?
+淺層 vs 深層
 
 
 
@@ -159,15 +174,33 @@ console.log(obj.prop1);           // Uncaught TypeError: Cannot assign to read o
 
 代表 ***是否可改變該屬性描述器/刪除該屬性***
 
-首先我們要有一個概念是，屬性描述器在一般狀況下是可以被重新定義的
+### 屬性特徵可以被重新設定
+首先我們需要知道的是，屬性描述器在一般狀況下是可以被重新設定的，沒有重新設定到的特徵就會保留原有的特徵。
+
+讓我們考慮以下程式：
 
 ```javascript
+var obj = {};
+obj.prop1 = 'This is prop1';
 
+Object.defineProperty(obj, 'prop1', {
+    value: 'This is prop1',
+    configurable: true,
+    enumerable: true,
+    writable: false
+});
+console.log(obj.prop1);           // "This is prop1"
+obj.prop1 = 'This is prop2';
+console.log(obj.prop1);				// "This is prop1"
 ```
 
+從範例中我們可以看到，`obj.prop1` 的 `writable: true` 被覆蓋為 `writable: false` 了，而沒有設定到的 `value` 則還是保持 `"This is prop1"`。此時試圖將 `obj.prop1` 重新賦值為 `"This is prop2"` 失敗，因此設定 `writable: false` 這個動作是成功的。
 
+### 禁止屬性被重新設定
 
-可覆蓋原有的屬性特徵 ( when `configuratable: true` )
+當我們將 `configurable: false` 時，我們就可以禁止屬性被重新設定。
+
+考慮以下程式：
 
 ```javascript
 var obj = {};
@@ -177,7 +210,7 @@ Object.defineProperty(obj, 'prop1', {
     enumerable: true,
     writable: true
 });
-console.log(obj.prop1);           // 'This is prop1'
+console.log(obj.prop1);           // "This is prop1"
 
 Object.defineProperty(obj, 'prop1', {
     value: 'This is prop1',
@@ -187,26 +220,46 @@ Object.defineProperty(obj, 'prop1', {
 });                               // Uncaught TypeError: Cannot redefine property: prop1
 ```
 
+當我們在 `obj.prop1` 已經被設定為 `configurable: false` 的狀況下，又試圖重新設定屬性描述器一次時，JavaScript 就直接跳出 `Uncaught TypeError: Cannot redefine property: prop1` 的錯誤。可見即便在非嚴格模式下，JavaScript 都不允許我們重新設定 `configurable: false` 的屬性描述器。
 
+注意事項：
+
+### 禁止屬性被刪除
+
+另外，當 `configurable: false` 的時候，屬性也是禁止被刪除的。
+
+承接上面的程式：
 
 ```javascript
 delete obj.prop1;                 // false
+console.log(obj.prop1);				 // "This is prop1"
 ```
 
+在 非嚴格模式下，當我們使用 `delete` 刪除 `configurable: false` 的屬性時，會回傳 `false` 來表示這個動作失敗。
 
+那如果在 嚴格模式下 呢？
 
 ```javascript
 'use strict';
 delete obj.prop1;                 // Uncaught TypeError: Cannot delete property 'prop1' of #<Object>
 ```
 
+JavaScript 直接跳出了 `Uncaught TypeError: Cannot delete property 'prop1' of #<Object>` 的錯誤訊息告訴我們 刪除 `configurable: false` 的函式是不合法的。
 
 
 
 
 ## Enumerable
 
+代表 ***屬性是否可列舉***
 
+換句話說就是，屬性是否會在物件的屬性列舉時被顯示。
+
+例如在 `for..in` 的屬性列舉動作中，只有可列舉的屬性會被迭代。
+
+### 禁止屬性被列舉
+
+當我們將屬性的 `enumerable` 設為 `false`，就可以防止屬性被列舉：
 
 ```javascript
 var obj = {};
@@ -216,17 +269,21 @@ Object.defineProperty(obj, 'prop1', {
     enumerable: false,
     writable: true
 });
-console.log(obj.prop1);           // 'This is prop1'
+obj.prop2 = 'This is prop2';
 
 console.log('prop1' in obj);      // true
+console.log('prop2' in obj);      // true
 for(var prop in obj) {
-    console.log('prop:', prop)    // undefined
+    console.log('prop: ', prop)    // "prop: This is prop2"
 }
 ```
 
+可以看到，雖然 `prop1` 與 `prop2` 屬性都存在 ( 利用 `in` 檢查 )，但因為 `obj.prop1` 被設為 `enumerable: false` 因此在 `for..in` 列舉屬性動作中，並不會被迭代到。相較之下，普通的屬性 `obj.prop2` 則依然是可被列舉的。
 
 
-檢查屬性是否可以列舉
+### 檢查屬性的可列舉性
+
+利用 `obj.propertyIsEnumerable`，我們可以檢查一個屬性 ***是否可列舉*** 且為 ***物件自有*** 的：
 
 ```javascript
 var obj = { prop1: 'prop1' };
@@ -240,6 +297,9 @@ obj.propertyIsEnumerable('prop1');        // true
 obj.propertyIsEnumerable('prop2');        // false
 ```
 
+可以看到，`obj.prop1` 顯示是可列舉的，而被設為 `enumerable: false` 的 `obj.prop2` 則是不可列舉的，符合我們的預期。
+
+除此之外，使用 `Object.keys` 會將所有可列舉的屬性列成一個陣列：
 
 
 ```javascript
@@ -253,31 +313,44 @@ Object.defineProperty(obj, 'prop2', {
 Object.keys(obj);            // ["prop1"]
 ```
 
-
-
-
-
-## 取值器
-
+因為 `obj` 中只有 `prop1` 可列舉，`Object.keys` 中列出的陣列只有 `prop1` 這個 key。
 
 
 ## Value
 
+代表 ***屬性的值***
 
+`value` 大概是屬性特徵中最常見的一個了，他代表著屬性的值：
 
 ```javascript
 var obj = {};
 Object.defineProperty(obj, 'prop1', {
-    value: 'This is prop1'
+    value: 'This is prop1',
+    writable: true,
+    configurable: true,
+    enumerable: true
 });
-console.log(obj.prop1);           // 'This is prop1'
+console.log(obj.prop1);           // "This is prop1"
+```
+
+而以上這段範例，其實就相當於：
+
+```javascript
+var obj = {};
+obj.prop1 = 'This is prop1';
+console.log(obj.prop1);				// "This is prop1"
 ```
 
 
 
 
 
-## Getter
+## 取值器 與 設值器
+
+
+
+
+### Getter
 
 
 
@@ -306,10 +379,7 @@ for(var prop in obj) {
 
 
 
-
-
-
-## Setter
+### Setter
 
 
 
@@ -335,3 +405,57 @@ console.log(obj.prop1);           // 1
 console.log(obj.prop2);           // undefined
 ```
 
+### 自製 Two-way Binding
+ 
+```HTML
+// HTML
+<input type="text" id="myInput">
+```
+
+```javascript
+// JS
+var obj = {
+  _myInput_ : document.getElementById('myInput'),
+  get input() {
+      return this._myInput_.value;
+  },
+  set input(value) {
+      this._myInput_.value = value;
+  }
+}
+
+obj.input = 'hey';
+
+// type words into input
+console.log(obj.input);
+```
+
+
+## 取得屬性特徵
+
+前面已經詳細介紹了 ***屬性描述器*** 與各個 ***屬性特徵*** 的意義，那如果今天我們想要了解一個屬性的特徵呢？此時 `obj.getOwnPropertyDescriptor('propertyName')` 就登場了。
+
+讓我們看看字面值宣告的屬性有哪些特徵：
+
+```javascript
+var obj = { prop1: 'prop1', prop2: 'prop2' };
+Object.getOwnPropertyDescriptor(obj, 'prop1', 'prop2');
+// { 
+//    value: "prop1",
+//    writable: true,
+//    enumerable: true,
+//    configurable: true
+// }
+```
+
+如我們前面介紹的一樣，
+
+```javascript
+var obj = { prop1: 'prop1', prop2: 'prop2' };
+Object.getOwnPropertyDescriptors(obj, 'prop1', 'prop2');
+```
+
+## 淺層設定特徵
+
+
+## 參考
