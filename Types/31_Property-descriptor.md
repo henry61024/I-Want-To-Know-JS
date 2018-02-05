@@ -6,16 +6,11 @@
 
 常常我們會認為屬性就是 key/value 的組合，實際上確實是如此，但除此之外，還有一些 屬性的**設定** 藏在裡面，我們就把這些屬性的**設定** 稱為 **屬性的特徵**，而設定這些屬性特徵的函式我們就把它稱為 **屬性描述器**。
 
+### 用處
+
 當對於屬性除了指定 key/value 以外有更進一步的要求時，例如設定屬性為 read-only 甚至是 constant 時，就可以使用 **屬性描述器**。
 
-
-使用時機
-
-優點
-
-缺點
-
-覆蓋屬性特徵
+換句話說，就算沒有屬性描述器，我們依然可以撰寫 JavaScript，但使用 屬性描述器 可以讓我們的 ***程式更為強健***。
 
 
 
@@ -44,15 +39,45 @@
 - `value` 就代表屬性的值
 - `get`、`set` 則是沒有設定。
 
-這點我們可以用 `obj.getOwnPropertyDescriptor('properyName')` 來驗證。我們將在後面介紹這個函式。
+
+
+## 取得屬性特徵
+
+如果我們想要了解一個屬性的特徵時，可以使用 `Object.getOwnPropertyDescriptor(object, 'propertyName')` 這個內建函式。
+
+就讓我們用 `Object.getOwnPropertyDescriptor` 來看看字面值宣告的 屬性特徵 是否如我們剛剛所說：
+
+```javascript
+var obj = { prop1: 'prop1', prop2: 'prop2' };
+Object.getOwnPropertyDescriptor(obj, 'prop1', 'prop2');
+// { 
+//    value: "prop1",
+//    writable: true,
+//    enumerable: true,
+//    configurable: true
+// }
+```
+
+與我們前面介紹的一樣，使用字面值創建的屬性，其 `writable`、`enumerable`、`configurable` 都會為 `true`，而 `value` 就會是 此屬性的值 `"prop1"`。
+
+對於一次查看多個屬性的特徵，JavaScript 也提供了內建的函式 `Object.getOwnPropertyDescriptors(object, 'propertyName1', 'propertyName2', ...)` 供開發者使用：
+
+```javascript
+var obj = { prop1: 'prop1', prop2: 'prop2' };
+Object.getOwnPropertyDescriptors(obj, 'prop1', 'prop2');
+// {
+//		prop1: { value: "prop1", writable: true, enumerable: true, configurable: true },
+//		prop2: { value: "prop2", writable: true, enumerable: true, configurable: true }
+// }
+```
 
 
 
 ## 屬性描述器
 
-在 ES5 之前，我們並沒有手動去設定一個屬性的特徵 (除了 `value`) 以外。
+在 ES5 之前，我們並沒有方式去設定屬性的特徵 (除了 `value` 以外) 。
 
-在 ES5 之後，JavaScript 提供了 `Object.defineProperty` 與 `Object.definedProperties` 這兩個屬性描述器介面，讓開發者設定屬性的特徵。
+在 ES5 之後，JavaScript 提供了 `Object.defineProperty` 與 `Object.definedProperties` 這兩個屬性描述器介面，讓開發者在創建屬性的同時也設定屬性的特徵。
 
 ### Object.defineProperty
 
@@ -166,16 +191,16 @@ obj.prop1 = 'This is prop2';
 console.log(obj.prop1);           // Uncaught TypeError: Cannot assign to read only property 'prop1' of object
 ```
 
-淺層 vs 深層
+另外， `writable` 也是 ***資料描述器 ( data descriptor )*** 的一環。
 
 
 
 ## Configurable
 
-代表 ***是否可改變該屬性描述器/刪除該屬性***
+代表 ***是否可改變該屬性的特徵/刪除該屬性***
 
 ### 屬性特徵可以被重新設定
-首先我們需要知道的是，屬性描述器在一般狀況下是可以被重新設定的，沒有重新設定到的特徵就會保留原有的特徵。
+還有一點我們需要知道，屬性描述器在一般狀況下是可以利用屬性描述器重新設定的，沒有重新設定到的特徵會保留原有的特徵。
 
 讓我們考慮以下程式：
 
@@ -222,7 +247,7 @@ Object.defineProperty(obj, 'prop1', {
 
 當我們在 `obj.prop1` 已經被設定為 `configurable: false` 的狀況下，又試圖重新設定屬性描述器一次時，JavaScript 就直接跳出 `Uncaught TypeError: Cannot redefine property: prop1` 的錯誤。可見即便在非嚴格模式下，JavaScript 都不允許我們重新設定 `configurable: false` 的屬性描述器。
 
-注意事項：
+**但有個特例：**在 `configurable: false` 的狀況下， **`writable` 特徵還是可以從 `true` 被改成 `false` 的** 。
 
 ### 禁止屬性被刪除
 
@@ -316,6 +341,8 @@ Object.keys(obj);            // ["prop1"]
 因為 `obj` 中只有 `prop1` 可列舉，`Object.keys` 中列出的陣列只有 `prop1` 這個 key。
 
 
+
+
 ## Value
 
 代表 ***屬性的值***
@@ -341,121 +368,79 @@ obj.prop1 = 'This is prop1';
 console.log(obj.prop1);				// "This is prop1"
 ```
 
+另外， `value` 也是 ***資料描述器 ( data descriptor )*** 的一環。
 
 
 
+## 屬性描述器屬於淺層設定
 
-## 取值器 與 設值器
+前面介紹了 屬性描述器 與 各種屬性特徵，但我們需要知道這些屬性描述器只會 ***淺層設定屬性特徵*** 而已。
 
+何謂淺層設定呢？就是只有目標物件的 ***自有屬性 才會擁有這個特徵***，若屬性又指向了另一個物件，則另一物件內的屬性則不算 自有屬性，也就不會擁有這個特徵。
 
-
-
-### Getter
-
-
+讓我們以 `writable: false` 來舉例：
 
 ```javascript
-var obj = {
-    get prop2() {
-        return 'This is prop2';
-    }
-};
+var obj = {},
+    innerObj = { innerProp: 'This is innerProp' };
 Object.defineProperty(obj, 'prop1', {
-    get: function() {
-        return 'This is prop1';
-    },
-    configurable: true,
-    enumerable: true
+  value: innerObj,
+  writable: false,
+  configuration: true,
+  enumerable: true
 });
-console.log(obj.prop1);           // 'This is prop1'
-console.log(obj.prop2);           // 'This is prop2'
 
-console.log('prop1' in obj);      // true
-for(var prop in obj) {
-    console.log('prop', prop)     // undefined
-}
+obj.prop1 = {};
+console.log(obj.prop1);		// { innerProp: "This is innerProp" }
+
+obj.prop1.innerProp = 'innerProp changed!';
+console.log(obj.prop1);		// { innerProp: "innerProp changed!" }
 ```
 
+在範例中，我們將 `obj.prop1` 設成 `writable: false` 並賦值為 `innerObj`，接著試圖將 `{}` 寫入 `obj.prop1`。如我們預期的，這個寫入動作沒有成功，`obj.prop1` 的值依然指向 `innerObj`。
+
+那如果我們複寫 `innerObj` 的屬性 `innerProp` 的話，寫入這個動作會被允許嗎？答案是肯定的，因為只有 `obj` 自身的屬性 `prop1` 被指定為 `writable: false`，而 `prop1` 指向的 `innerObj` 內部屬性 `innerProp` 則不受 `prop1` 的特徵管轄，因此複寫 `innerProp` 是可以的。
+
+我們需要熟知這個特性，以免誤會設定屬性特徵這個動作也會深層影響到 非自有的內層屬性。
 
 
 
-### Setter
+## 小結
 
+本篇介紹了 **屬性描述器**，*屬性描述器就是設定屬性特徵的函式*。
 
+在 ES5 之後，JavaScript 提供了  `Object.defineProperty` 與 `Object.definedProperties` 作為屬性描述器提供開發者使用。
 
-```javascript
-var obj = {
-    set prop2(val) {
-        this._prop2_ = val;
-    }
-};
-Object.defineProperty(obj, 'prop1', {
-    get: function() {
-        return this._prop2_;
-    },
-    set: function(val) {
-        this._prop2_ = val * 2;
-    },
-    configurable: true,
-    enumerable: true
-});
-obj.prop1 = 1;
-obj.prop2 = 1;
-console.log(obj.prop1);           // 1
-console.log(obj.prop2);           // undefined
-```
+若我們要了解一個屬性的特徵，則可以使用 `Object.getOwnPropertyDescriptor` 與 `Object.getOwnPropertyDescriptors`。
 
-### 自製 Two-way Binding
- 
-```HTML
-// HTML
-<input type="text" id="myInput">
-```
+而 **屬性的特徵** 就代表著屬性的一些細節設定，總共有六種屬性特徵：
 
-```javascript
-// JS
-var obj = {
-  _myInput_ : document.getElementById('myInput'),
-  get input() {
-      return this._myInput_.value;
-  },
-  set input(value) {
-      this._myInput_.value = value;
-  }
-}
+* **writable**
 
-obj.input = 'hey';
+  屬性是否可改值
 
-// type words into input
-console.log(obj.input);
-```
+* **configurable**
 
+  是否可改變該屬性的特徵/刪除該屬性
 
-## 取得屬性特徵
+* **enumerable**
 
-前面已經詳細介紹了 ***屬性描述器*** 與各個 ***屬性特徵*** 的意義，那如果今天我們想要了解一個屬性的特徵呢？此時 `obj.getOwnPropertyDescriptor('propertyName')` 就登場了。
+  屬性是否可列舉
 
-讓我們看看字面值宣告的屬性有哪些特徵：
+* **value**
 
-```javascript
-var obj = { prop1: 'prop1', prop2: 'prop2' };
-Object.getOwnPropertyDescriptor(obj, 'prop1', 'prop2');
-// { 
-//    value: "prop1",
-//    writable: true,
-//    enumerable: true,
-//    configurable: true
-// }
-```
+  屬性的值
 
-如我們前面介紹的一樣，
+* get
 
-```javascript
-var obj = { prop1: 'prop1', prop2: 'prop2' };
-Object.getOwnPropertyDescriptors(obj, 'prop1', 'prop2');
-```
+* set
 
-## 淺層設定特徵
+屬性描述器可以有效的增加程式的強健性，但需要注意一點的是，屬性描述器只會 ***淺層的設定屬性特徵*** 。
+
 
 
 ## 參考
+
+[You Don't Know JS: Objects](https://github.com/getify/You-Dont-Know-JS/blob/master/this%20%26%20object%20prototypes/ch3.md)
+
+[飛肯設計: 進階 JS 班](http://www.flycan.com.tw/course/course-javascript-adv.php)
