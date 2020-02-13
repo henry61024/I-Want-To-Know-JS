@@ -170,7 +170,7 @@ function add(a, b) {
 add.call(null, 1, 2);			// 3
 add.call(null, 1, 4);			// 5
 add.apply(null, [1, 2]);		// 3
-add.call(null, [1, 4]);			// 5
+add.apply(null, [1, 4]);			// 5
 var add1 = add.bind(null, 1);
 console.log(add1(2));			// 3
 console.log(add1(4));			// 5
