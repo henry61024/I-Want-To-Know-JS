@@ -95,7 +95,7 @@ var defer = new Promise(function(resolve, reject) {
 
 接著讓我們回到信用卡的範例，但這次，我們要試試看 Promise 能不能真的解決可靠性的問題。
 
-先來看我們的第三方函式庫，假設他們是使用 Promise 的語法犯了錯，很不小心的執行的 resolve 兩次：
+先來看我們的第三方函式庫，假設他們是使用 Promise 的語法犯了錯，很不小心的執行了 resolve 兩次：
 
 ```javascript
 function analyze(data) {
